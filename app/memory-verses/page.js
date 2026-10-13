@@ -1,0 +1,4 @@
+
+'use client';
+import {useEffect,useState} from 'react'; import Link from 'next/link'; import {supabase} from '../../lib/supabase';
+export default function MemoryVerses(){const [items,setItems]=useState([]),[q,setQ]=useState('');useEffect(()=>{supabase.from('memory_verses').select('*').eq('published',true).order('featured',{ascending:false}).then(({data})=>setItems(data||[]));},[]);const f=items.filter(x=>(x.verse_reference+' '+x.verse_text).toLowerCase().includes(q.toLowerCase()));return <main className="container"><div className="page-hero"><Link href="/">← Home</Link><h1>📜 Memory Verses</h1><p>Hide God’s Word in your heart.</p></div><input className="search" value={q} onChange={e=>setQ(e.target.value)} placeholder="Search Scripture..." /><div className="verse-grid">{f.map(x=><article className="verse-card" key={x.id}><span>{x.translation}</span><h3>{x.verse_reference}</h3><p>“{x.verse_text}”</p><small>{x.reflection}</small></article>)}</div></main>}

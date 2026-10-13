@@ -1,0 +1,11 @@
+
+'use client';
+import {useEffect,useState} from 'react'; import Link from 'next/link'; import {useRouter} from 'next/navigation'; import {supabase} from '../../../lib/supabase';
+export default function CompetitionDetail({params}){
+ const [c,setC]=useState(null),[reg,setReg]=useState(null),[session,setSession]=useState(null),[busy,setBusy]=useState(false);const router=useRouter();
+ useEffect(()=>{load()},[]);
+ async function load(){const {data:c0}=await supabase.from('competitions').select('*').eq('slug',params.slug).maybeSingle();setC(c0);const {data:{session}}=await supabase.auth.getSession();setSession(session);if(session&&c0){const {data:r}=await supabase.from('competition_registrations').select('*').eq('competition_id',c0.id).eq('user_id',session.user.id).maybeSingle();setReg(r)}}
+ async function register(){if(!session){router.push('/auth');return;}setBusy(true);const {data,error}=await supabase.from('competition_registrations').insert({competition_id:c.id,user_id:session.user.id,status:c.entry_fee>0?'pending':'registered'}).select().single();setBusy(false);if(error){alert(error.message);return;}setReg(data);if(Number(c.entry_fee)>0){alert('Registration created. Payment processing must be connected to a secure server-side payment provider in the production deployment.')}else router.push(`/competition/${c.slug}/quiz`)}
+ if(!c)return <main className="container">Loading competition...</main>;
+ return <main className="container article"><Link href="/competition">← Competitions</Link><span className="pill">{c.status}</span><h1>{c.name}</h1><p>{c.description}</p><div className="lesson-box"><p><strong>{c.question_count||10}</strong> questions</p><p><strong>{Math.round((c.duration_seconds||600)/60)}</strong> minutes</p><p>Entry: <strong>{Number(c.entry_fee||0)===0?'Free':`${c.currency||'NGN'} ${Number(c.entry_fee).toLocaleString()}`}</strong></p></div><h2>Rules</h2><p>{c.rules||'Answer each question once. Rankings use score first, then completion time as the tie-breaker.'}</p>{reg?<div className="notice">Registration status: <strong>{reg.status}</strong>{reg.status==='registered'&&<div><Link href={`/competition/${c.slug}/quiz`}><button>Enter Competition</button></Link></div>}</div>:<button disabled={busy} onClick={register}>{busy?'Registering...':Number(c.entry_fee)>0?'Register & Pay':'Register Free'}</button>}</main>
+}

@@ -1,0 +1,4 @@
+
+'use client';
+import {useEffect,useState} from 'react'; import Link from 'next/link'; import {supabase} from '../../../../lib/supabase';
+export default function AdminDevotionals(){const [items,setItems]=useState([]);useEffect(()=>{load()},[]);async function load(){const {data}=await supabase.from('devotionals').select('*').order('devotional_date',{ascending:false});setItems(data||[])}async function toggle(x){await supabase.from('devotionals').update({published:!x.published}).eq('id',x.id);load()}return <main className="container"><Link href="/admin">← Admin</Link><h1>Manage Devotionals</h1><div className="admin-table">{items.map(x=><div className="admin-row" key={x.id}><div><strong>{x.title}</strong><small>{x.devotional_date||'No date'}</small></div><span>{x.published?'Published':'Draft'}</span><button onClick={()=>toggle(x)}>{x.published?'Unpublish':'Publish'}</button></div>)}</div></main>}

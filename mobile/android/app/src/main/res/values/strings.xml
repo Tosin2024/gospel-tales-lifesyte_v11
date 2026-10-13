@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GOSPEL TALES LIFESYTE</string>
+    <string name="title_activity_main">GOSPEL TALES LIFESYTE</string>
+    <string name="package_name">org.gospeltales.lifesytte</string>
+    <string name="custom_url_scheme">org.gospeltales.lifesytte</string>
+</resources>

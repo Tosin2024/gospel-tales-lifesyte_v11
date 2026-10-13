@@ -1,0 +1,1 @@
+export default function sitemap(){const b=process.env.NEXT_PUBLIC_APP_URL||'http://localhost:3000';return ['','/stories','/lessons','/devotional','/memory-verses','/competition','/certificates/verify'].map(p=>({url:b+p}))}

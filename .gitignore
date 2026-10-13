@@ -1,0 +1,24 @@
+.env
+.env.*
+!.env.example
+!.env.production.example
+!.env.stage11.example
+node_modules/
+.next/
+.idea/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# Local secrets and generated files
+.env.local
+.env
+.env.*.local
+node_modules/
+.next/
+
+# Keep local secrets out of Git
+.env.local
+.env.*.local
+node_modules/
+.next/

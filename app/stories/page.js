@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useState} from "react";
 import Link from "next/link";
-import {supabaseBrowser} from "../lib/supabase";
+import { supabaseBrowser } from '../../lib/supabase';
 
 export default function Home(){
  const supabase=supabaseBrowser();

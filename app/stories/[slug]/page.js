@@ -2,9 +2,10 @@
 'use client';
 import { useEffect,useState } from 'react';
 import Link from 'next/link';
-import import { supabaseBrowser } from "../../../lib/supabase";
+import { supabaseBrowser } from "../../../lib/supabase";
 
 export default function StoryPage({params}) {
+const supabase = supabaseBrowser();
  const [story,setStory]=useState(null),[fav,setFav]=useState(false),[done,setDone]=useState(false),[session,setSession]=useState(null);
  useEffect(()=>{load();},[]);
  async function load(){
